@@ -1,0 +1,23 @@
+services:
+  test_db:
+    image: postgres:15.1-alpine
+    command: -p 543
+    expose:
+      - 543
+    environment:
+      - POSTGRES_DB=test
+      - POSTGRES_USER=test
+      - POSTGRES_PASSWORD=test
+  test:
+    build:
+      context:
+        tests/
+    environment:
+      - DB_USER=test
+      - DB_PASS=test
+      - DB_HOST=test_db
+      - DB_PORT=543
+      - DB_NAME=test
+    container_name: fastapi_test
+    depends_on:
+      - test_db

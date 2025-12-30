@@ -1,0 +1,27 @@
+services:
+  db:
+    image: postgres:15.1-alpine
+    command: -p 5432
+    expose:
+      - 5432
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+
+
+  app:
+    build:
+      context:
+        .
+    environment:
+      - DB_USER=postgres
+      - DB_PASS=postgres
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_NAME=postgres
+    container_name: fastapi_app
+    ports:
+      - 3000:3000
+    depends_on:
+      - db
